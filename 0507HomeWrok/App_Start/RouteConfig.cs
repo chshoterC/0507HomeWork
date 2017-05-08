@@ -16,7 +16,7 @@ namespace _0507HomeWrok
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "功能列表", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

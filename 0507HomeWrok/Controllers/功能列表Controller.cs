@@ -6,8 +6,9 @@ using System.Web.Mvc;
 
 namespace _0507HomeWrok.Controllers
 {
-    public class HomeController : Controller
+    public class 功能列表Controller : Controller
     {
+        // GET: 功能列表
         public ActionResult Index()
         {
             return View();
@@ -24,6 +25,11 @@ namespace _0507HomeWrok.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        public ActionResult Test()
+        {
             return View();
         }
     }
