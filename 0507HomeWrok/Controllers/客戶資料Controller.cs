@@ -39,5 +39,24 @@ namespace _0507HomeWrok.Controllers
             }
             return View(data);
         }
+
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(客戶資料 客戶資料Item)
+        {
+            if (ModelState.IsValid)
+            {
+                db.客戶資料.Add(客戶資料Item);
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
     }
 }

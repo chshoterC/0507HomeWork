@@ -316,6 +316,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\客戶資料\Index.cshtml" />
     <Content Include="Views\功能列表\Index.cshtml" />
+    <Content Include="Views\客戶資料\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
