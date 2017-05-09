@@ -317,6 +317,8 @@
     <Content Include="Views\客戶資料\Index.cshtml" />
     <Content Include="Views\功能列表\Index.cshtml" />
     <Content Include="Views\客戶資料\Create.cshtml" />
+    <Content Include="Views\客戶資料\Details.cshtml" />
+    <Content Include="Views\客戶資料\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
