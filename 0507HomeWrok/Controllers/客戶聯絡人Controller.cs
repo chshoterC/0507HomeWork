@@ -20,10 +20,6 @@ namespace _0507HomeWrok.Controllers
             {
                 switch (str類型)
                 {
-                    case "客戶名Id":
-                        data = all.Where(p => p.客戶Id == Convert.ToInt32(str查詢值) && p.是否刪除 == false)
-                        .OrderByDescending(p => p.Id);
-                        break;
                     case "職稱":
                         data = all.Where(p => p.職稱.Contains(str查詢值) && p.是否刪除 == false)
                         .OrderByDescending(p => p.Id);
@@ -38,10 +34,6 @@ namespace _0507HomeWrok.Controllers
                         break;
                     case "手機":
                         data = all.Where(p => p.手機.Contains(str查詢值) && p.是否刪除 == false)
-                        .OrderByDescending(p => p.Id);
-                        break;
-                    case "電話":
-                        data = all.Where(p => p.電話.Contains(str查詢值) && p.是否刪除 == false)
                         .OrderByDescending(p => p.Id);
                         break;
                 }
