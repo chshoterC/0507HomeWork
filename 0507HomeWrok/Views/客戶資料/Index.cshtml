@@ -8,6 +8,17 @@
 
 <p>
     @Html.ActionLink("Create New", "Create")
+
+    @using (Html.BeginForm("index", "客戶資料", FormMethod.Get))
+    {
+        <select name="str類型">
+            <option>客戶名稱</option>
+            <option>統一編號</option>
+            <option>電話</option>
+            <option>Email</option>
+        </select>
+        <input type="text" name="str查詢值" value="" />
+    }
 </p>
 <table class="table">
     <tr>

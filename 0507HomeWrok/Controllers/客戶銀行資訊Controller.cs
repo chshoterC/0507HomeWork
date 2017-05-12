@@ -18,26 +18,41 @@ namespace _0507HomeWrok.Controllers
             var data = all.Where(p => p.是否刪除 == false).OrderBy(p => p.Id);
             if (str類型 != null && str查詢值 != null)
             {
-                switch (str類型)
+                if (str查詢值 != "")
                 {
-                    case "客戶名Id":
-                        data = all.Where(p => p.客戶Id == Convert.ToInt32(str查詢值) && p.是否刪除 == false)
-                        .OrderByDescending(p => p.Id);
-                        break;
-                    case "銀行代碼":
-                        data = all.Where(p => p.銀行代碼 == Convert.ToInt32(str查詢值) && p.是否刪除 == false)
-                        .OrderByDescending(p => p.Id);
-                        break;
-                    case "銀行名稱":
-                        data = all.Where(p => p.銀行名稱.Contains(str查詢值) && p.是否刪除 == false)
-                        .OrderByDescending(p => p.Id);
-                        break;
-                    case "帳戶號碼":
-                        data = all.Where(p => p.帳戶號碼.Contains(str查詢值) && p.是否刪除 == false)
-                        .OrderByDescending(p => p.Id);
-                        break;
+                    switch (str類型)
+                    {
+                        case "銀行代碼":
+                            data = all.Where(p => p.銀行代碼 == Convert.ToInt32(str查詢值) && p.是否刪除 == false)
+                            .OrderByDescending(p => p.Id);
+                            break;
+                        case "銀行名稱":
+                            data = all.Where(p => p.銀行名稱.Contains(str查詢值) && p.是否刪除 == false)
+                            .OrderByDescending(p => p.Id);
+                            break;
+                        case "帳戶號碼":
+                            data = all.Where(p => p.帳戶號碼.Contains(str查詢值) && p.是否刪除 == false)
+                            .OrderByDescending(p => p.Id);
+                            break;
+                        case "客戶名稱":
+                            data = all.Where(p => p.客戶Id == Convert.ToInt32(str查詢值) && p.是否刪除 == false)
+                            .OrderByDescending(p => p.Id);
+                            break;
+                    }
                 }
             }
+
+            var 客戶資料s = db.客戶資料.AsQueryable().Where(p => p.是否刪除 == false);
+
+            List<SelectListItem> ddlItem = new List<SelectListItem>();
+
+            foreach (var 客戶資料Item in 客戶資料s)
+            {
+                ddlItem.Add(new SelectListItem() { Text = 客戶資料Item.客戶名稱, Value = 客戶資料Item.Id.ToString() });
+            }
+            ViewBag.ddl客戶資料 = ddlItem;
+
+
             return View(data);
         }
 
@@ -100,7 +115,7 @@ namespace _0507HomeWrok.Controllers
                 item.分行代碼 = 客戶銀行資訊Item.分行代碼;
                 item.銀行代碼 = 客戶銀行資訊Item.銀行代碼;
                 item.銀行名稱 = 客戶銀行資訊Item.銀行名稱;
-              
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

@@ -8,6 +8,19 @@
 
 <p>
     @Html.ActionLink("Create New", "Create")
+
+    @using (Html.BeginForm("index", "客戶銀行資訊", FormMethod.Get))
+    {
+        <select onchange="if ($(this).val() == '客戶名稱') { $('.q1').hide(); $('.q2').show(); } else { $('.q1').show(); $('.q2').hide(); }" name="str類型">
+            <option>銀行代碼</option>
+            <option>銀行名稱</option>
+            <option>帳戶號碼</option>
+            <option>客戶名稱</option>
+        </select>
+        <input type="text" class="q1" name="str查詢值" value="" />
+
+        @Html.DropDownList("str查詢值", (IEnumerable<SelectListItem>)ViewBag.ddl客戶資料, htmlAttributes: new { @class = "form-control q2", @style="display:none;" })
+    }
 </p>
 <table class="table">
     <tr>
