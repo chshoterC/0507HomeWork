@@ -12,11 +12,11 @@ namespace _0507HomeWrok.Controllers
     {
         //// GET: 客戶銀行資訊
         客戶資料Entities db = new 客戶資料Entities();
-        public ActionResult Index(string str類型, string str查詢值)
+        public ActionResult Index(string str類型, string str查詢值, string str查詢值2)
         {
             var all = db.客戶銀行資訊.AsQueryable();
             var data = all.Where(p => p.是否刪除 == false).OrderBy(p => p.Id);
-            if (str類型 != null && str查詢值 != null)
+            if (str類型 != null && (str查詢值 != null || str查詢值2 != null))
             {
                 if (str查詢值 != "")
                 {
@@ -34,11 +34,12 @@ namespace _0507HomeWrok.Controllers
                             data = all.Where(p => p.帳戶號碼.Contains(str查詢值) && p.是否刪除 == false)
                             .OrderByDescending(p => p.Id);
                             break;
-                        case "客戶名稱":
-                            data = all.Where(p => p.客戶Id == Convert.ToInt32(str查詢值) && p.是否刪除 == false)
-                            .OrderByDescending(p => p.Id);
-                            break;
                     }
+                }
+                else
+                {
+                    data = all.Where(p => p.客戶Id == Convert.ToInt32(1) && p.是否刪除 == false)
+                    .OrderByDescending(p => p.Id);
                 }
             }
 

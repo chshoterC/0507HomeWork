@@ -54,6 +54,16 @@
           <Property Name="電話" Type="nvarchar" MaxLength="50" />
           <Property Name="是否刪除" Type="bit" Nullable="false" />
         </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'C:\USERS\CLOUD\DOCUMENTS\VISUAL STUDIO 2015\PROJECTS\0507HOMEWROK\0507HOMEWROK\APP_DATA\客戶資料.MDF.dbo.v_客戶資料關聯統計表' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="v_客戶資料關聯統計表">
+          <Key>
+            <PropertyRef Name="客戶名稱" />
+          </Key>
+          <Property Name="客戶名稱" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="聯絡人數量" Type="int" />
+          <Property Name="銀行帳戶數量" Type="int" />
+        </EntityType>
         <Association Name="FK_客戶銀行資訊_客戶資料">
           <End Role="客戶資料" Type="Self.客戶資料" Multiplicity="1" />
           <End Role="客戶銀行資訊" Type="Self.客戶銀行資訊" Multiplicity="*" />
@@ -83,6 +93,13 @@
           <EntitySet Name="客戶資料" EntityType="Self.客戶資料" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="客戶銀行資訊" EntityType="Self.客戶銀行資訊" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="客戶聯絡人" EntityType="Self.客戶聯絡人" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="v_客戶資料關聯統計表" EntityType="Self.v_客戶資料關聯統計表" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_客戶資料關聯統計表].[客戶名稱] AS [客戶名稱], 
+    [v_客戶資料關聯統計表].[聯絡人數量] AS [聯絡人數量], 
+    [v_客戶資料關聯統計表].[銀行帳戶數量] AS [銀行帳戶數量]
+    FROM [dbo].[v_客戶資料關聯統計表] AS [v_客戶資料關聯統計表]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_客戶銀行資訊_客戶資料" Association="Self.FK_客戶銀行資訊_客戶資料">
             <End Role="客戶資料" EntitySet="客戶資料" />
             <End Role="客戶銀行資訊" EntitySet="客戶銀行資訊" />
@@ -186,7 +203,16 @@
             <End Role="客戶資料" EntitySet="客戶資料" />
             <End Role="客戶聯絡人" EntitySet="客戶聯絡人" />
           </AssociationSet>
+          <EntitySet Name="v_客戶資料關聯統計表" EntityType="客戶資料Model.v_客戶資料關聯統計表" />
         </EntityContainer>
+        <EntityType Name="v_客戶資料關聯統計表">
+          <Key>
+            <PropertyRef Name="客戶名稱" />
+          </Key>
+          <Property Name="客戶名稱" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="聯絡人數量" Type="Int32" />
+          <Property Name="銀行帳戶數量" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -243,6 +269,15 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="手機" ColumnName="手機" />
                 <ScalarProperty Name="電話" ColumnName="電話" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_客戶資料關聯統計表">
+            <EntityTypeMapping TypeName="客戶資料Model.v_客戶資料關聯統計表">
+              <MappingFragment StoreEntitySet="v_客戶資料關聯統計表">
+                <ScalarProperty Name="銀行帳戶數量" ColumnName="銀行帳戶數量" />
+                <ScalarProperty Name="聯絡人數量" ColumnName="聯絡人數量" />
+                <ScalarProperty Name="客戶名稱" ColumnName="客戶名稱" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
