@@ -44,6 +44,16 @@ namespace _0507HomeWrok.Controllers
 
         public ActionResult Create()
         {
+            var 客戶資料s = db.客戶資料.AsQueryable().Where(p => p.是否刪除 == false);
+
+            List<SelectListItem> ddlItem = new List<SelectListItem>();
+
+            foreach (var 客戶資料Item in 客戶資料s)
+            {
+                ddlItem.Add(new SelectListItem() { Text = 客戶資料Item.客戶名稱, Value = 客戶資料Item.Id.ToString() });
+            }
+            ViewBag.ddl客戶資料 = ddlItem;
+
             return View();
         }
 
