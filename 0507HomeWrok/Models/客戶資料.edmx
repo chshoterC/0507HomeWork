@@ -59,10 +59,12 @@
         <EntityType Name="v_客戶資料關聯統計表">
           <Key>
             <PropertyRef Name="客戶名稱" />
+            
+            
           </Key>
           <Property Name="客戶名稱" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="聯絡人數量" Type="int" />
-          <Property Name="銀行帳戶數量" Type="int" />
+          <Property Name="聯絡人數量" Type="int" Nullable="false" />
+          <Property Name="銀行帳戶數量" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_客戶銀行資訊_客戶資料">
           <End Role="客戶資料" Type="Self.客戶資料" Multiplicity="1" />
@@ -210,8 +212,8 @@
             <PropertyRef Name="客戶名稱" />
           </Key>
           <Property Name="客戶名稱" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="聯絡人數量" Type="Int32" />
-          <Property Name="銀行帳戶數量" Type="Int32" />
+          <Property Name="聯絡人數量" Type="Int32" Nullable="false" />
+          <Property Name="銀行帳戶數量" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>

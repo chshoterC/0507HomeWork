@@ -15,7 +15,7 @@ namespace _0507HomeWrok.Models
     public partial class v_客戶資料關聯統計表
     {
         public string 客戶名稱 { get; set; }
-        public Nullable<int> 聯絡人數量 { get; set; }
-        public Nullable<int> 銀行帳戶數量 { get; set; }
+        public int 聯絡人數量 { get; set; }
+        public int 銀行帳戶數量 { get; set; }
     }
 }

@@ -325,13 +325,16 @@
     <Content Include="Views\客戶資料\Details.cshtml" />
     <Content Include="Views\客戶資料\Edit.cshtml" />
     <Content Include="Views\客戶銀行資訊\Index.cshtml" />
-    <Content Include="Views\客戶銀行資訊\Create.cshtml" />
     <Content Include="Views\客戶銀行資訊\Details.cshtml" />
     <Content Include="Views\客戶聯絡人\Index.cshtml" />
     <Content Include="Views\客戶聯絡人\Create.cshtml" />
     <Content Include="Views\客戶聯絡人\Details.cshtml" />
     <Content Include="Views\客戶聯絡人\Edit.cshtml" />
     <Content Include="Views\客戶銀行資訊\Edit.cshtml" />
+    <Content Include="Views\客戶資料\客戶資料關聯統計表.cshtml" />
+    <Content Include="Views\客戶銀行資訊\Create.cshtml" />
+    <Content Include="Views\客戶銀行資訊\Delete.cshtml" />
+    <Content Include="Views\客戶聯絡人\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -344,9 +347,7 @@
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\客戶銀行\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -41,6 +41,10 @@ namespace _0507HomeWrok.Controllers
             return View(data);
         }
 
+        public ActionResult 客戶資料關聯統計表()
+        {
+            return View(db.v_客戶資料關聯統計表.ToList());
+        }
 
         public ActionResult Create()
         {
