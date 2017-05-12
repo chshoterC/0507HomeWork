@@ -19,7 +19,7 @@
         </select>
         <input type="text" class="q1" name="str查詢值" value="" />
 
-        @Html.DropDownList("str查詢值2", (IEnumerable<SelectListItem>)ViewBag.ddl客戶資料, htmlAttributes: new { @class = "form-control q2", @style = "display:none;", @onchange = "$(\"form[name = 'form1']\").submit();" })
+        @Html.DropDownList("str查詢值2", (IEnumerable<SelectListItem>)ViewBag.ddl客戶資料, htmlAttributes: new { @class = "form-control q2", @style = "display:none;", @onchange = "if($(this).val() !=''){$(\"form[name = 'form1']\").submit();}" })
     }
 </p>
 <table class="table">

@@ -16,14 +16,16 @@ namespace _0507HomeWrok.Controllers
         {
             var all = db.客戶銀行資訊.AsQueryable();
             var data = all.Where(p => p.是否刪除 == false).OrderBy(p => p.Id);
+
             if (str類型 != null && (str查詢值 != null || str查詢值2 != null))
             {
-                if (str查詢值 != "")
+                if (str類型 != "客戶名稱" && str查詢值 != "")
                 {
                     switch (str類型)
                     {
                         case "銀行代碼":
-                            data = all.Where(p => p.銀行代碼 == Convert.ToInt32(str查詢值) && p.是否刪除 == false)
+                            int qId2 = Convert.ToInt32(str查詢值);
+                            data = all.Where(p => p.銀行代碼 == qId2 && p.是否刪除 == false)
                             .OrderByDescending(p => p.Id);
                             break;
                         case "銀行名稱":
@@ -38,8 +40,12 @@ namespace _0507HomeWrok.Controllers
                 }
                 else
                 {
-                    data = all.Where(p => p.客戶Id == Convert.ToInt32(1) && p.是否刪除 == false)
-                    .OrderByDescending(p => p.Id);
+                    if (str類型 == "客戶名稱" && str查詢值2 != "")
+                    {
+                        int qId = Convert.ToInt32(str查詢值2);
+                        data = all.Where(p => p.客戶Id == qId && p.是否刪除 == false)
+                        .OrderByDescending(p => p.Id);
+                    }
                 }
             }
 
@@ -51,6 +57,7 @@ namespace _0507HomeWrok.Controllers
             {
                 ddlItem.Add(new SelectListItem() { Text = 客戶資料Item.客戶名稱, Value = 客戶資料Item.Id.ToString() });
             }
+            ddlItem.Insert(0, new SelectListItem() { Text = "請選擇", Value = "" });
             ViewBag.ddl客戶資料 = ddlItem;
 
 
