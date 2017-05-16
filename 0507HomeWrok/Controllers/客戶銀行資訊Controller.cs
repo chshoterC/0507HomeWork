@@ -11,11 +11,14 @@ namespace _0507HomeWrok.Controllers
     public class 客戶銀行資訊Controller : Controller
     {
         //// GET: 客戶銀行資訊
-        客戶資料Entities db = new 客戶資料Entities();
+        //客戶資料Entities db = new 客戶資料Entities();
+
+        客戶銀行資訊Repository repo = RepositoryHelper.Get客戶銀行資訊Repository();
+        客戶資料Repository repo2 = RepositoryHelper.Get客戶資料Repository();
+
         public ActionResult Index(string str類型, string str查詢值, string str查詢值2)
         {
-            var all = db.客戶銀行資訊.AsQueryable();
-            var data = all.Where(p => p.是否刪除 == false).OrderBy(p => p.Id);
+            var data = repo.Where(p => p.是否刪除 == false).OrderBy(p => p.Id);
 
             if (str類型 != null && (str查詢值 != null || str查詢值2 != null))
             {
@@ -25,15 +28,15 @@ namespace _0507HomeWrok.Controllers
                     {
                         case "銀行代碼":
                             int qId2 = Convert.ToInt32(str查詢值);
-                            data = all.Where(p => p.銀行代碼 == qId2 && p.是否刪除 == false)
+                            data = repo.Where(p => p.銀行代碼 == qId2 && p.是否刪除 == false)
                             .OrderByDescending(p => p.Id);
                             break;
                         case "銀行名稱":
-                            data = all.Where(p => p.銀行名稱.Contains(str查詢值) && p.是否刪除 == false)
+                            data = repo.Where(p => p.銀行名稱.Contains(str查詢值) && p.是否刪除 == false)
                             .OrderByDescending(p => p.Id);
                             break;
                         case "帳戶號碼":
-                            data = all.Where(p => p.帳戶號碼.Contains(str查詢值) && p.是否刪除 == false)
+                            data = repo.Where(p => p.帳戶號碼.Contains(str查詢值) && p.是否刪除 == false)
                             .OrderByDescending(p => p.Id);
                             break;
                     }
@@ -43,13 +46,13 @@ namespace _0507HomeWrok.Controllers
                     if (str類型 == "客戶名稱" && str查詢值2 != "")
                     {
                         int qId = Convert.ToInt32(str查詢值2);
-                        data = all.Where(p => p.客戶Id == qId && p.是否刪除 == false)
+                        data = repo.Where(p => p.客戶Id == qId && p.是否刪除 == false)
                         .OrderByDescending(p => p.Id);
                     }
                 }
             }
 
-            var 客戶資料s = db.客戶資料.AsQueryable().Where(p => p.是否刪除 == false);
+            var 客戶資料s = repo2.Where(p => p.是否刪除 == false);
 
             List<SelectListItem> ddlItem = new List<SelectListItem>();
 
@@ -67,7 +70,7 @@ namespace _0507HomeWrok.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.客戶Id = new SelectList(db.客戶資料.Where(p => p.是否刪除 == false), "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(repo2.Where(p => p.是否刪除 == false), "Id", "客戶名稱");
             return View();
         }
 
@@ -76,20 +79,20 @@ namespace _0507HomeWrok.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.客戶銀行資訊.Add(客戶銀行資訊Item);
-                db.SaveChanges();
+                repo.Add(客戶銀行資訊Item);
+                repo.UnitOfWork.Commit();
 
                 return RedirectToAction("Index");
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料.Where(p => p.是否刪除 == false), "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(repo2.Where(p => p.是否刪除 == false), "Id", "客戶名稱");
             return View(客戶銀行資訊Item);
         }
 
-        public ActionResult Details(int? id)
+        public ActionResult Details(int id)
         {
             if (id != null)
             {
-                var data = db.客戶銀行資訊.Find(id);
+                var data = repo.Get客戶銀行資訊ById(id);
                 return View(data);
             }
 
@@ -99,7 +102,7 @@ namespace _0507HomeWrok.Controllers
 
         public ActionResult Edit(int id)
         {
-            var item = db.客戶銀行資訊.Find(id);
+            var item = repo.Get客戶銀行資訊ById(id);
             return View(item);
         }
 
@@ -108,7 +111,7 @@ namespace _0507HomeWrok.Controllers
         {
             if (ModelState.IsValid)
             {
-                var item = db.客戶銀行資訊.Find(id);
+                var item = repo.Get客戶銀行資訊ById(id);
 
                 item.帳戶名稱 = 客戶銀行資訊Item.帳戶名稱;
                 item.帳戶號碼 = 客戶銀行資訊Item.帳戶號碼;
@@ -116,7 +119,8 @@ namespace _0507HomeWrok.Controllers
                 item.銀行代碼 = 客戶銀行資訊Item.銀行代碼;
                 item.銀行名稱 = 客戶銀行資訊Item.銀行名稱;
 
-                db.SaveChanges();
+                repo.Update(item);
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
             return View();
@@ -124,12 +128,12 @@ namespace _0507HomeWrok.Controllers
 
         public ActionResult Delete(int id)
         {
-            var 客戶銀行資訊Item = db.客戶銀行資訊.Find(id);
-
-            客戶銀行資訊Item.是否刪除 = true;
+            var 客戶銀行資訊Item = repo.Get客戶銀行資訊ById(id);
+           
             try
             {
-                db.SaveChanges();
+                repo.Delete(客戶銀行資訊Item);
+                repo.UnitOfWork.Commit();
             }
             catch (DbEntityValidationException ex)
             {
