@@ -11,7 +11,6 @@ namespace _0507HomeWrok.Controllers
     public class 客戶銀行資訊Controller : Controller
     {
         //// GET: 客戶銀行資訊
-        //客戶資料Entities db = new 客戶資料Entities();
 
         客戶銀行資訊Repository repo = RepositoryHelper.Get客戶銀行資訊Repository();
         客戶資料Repository repo2 = RepositoryHelper.Get客戶資料Repository();
