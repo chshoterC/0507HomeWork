@@ -242,6 +242,9 @@
     <Compile Include="Models\v_客戶資料關聯統計表Repository.cs">
       <DependentUpon>IRepository.EF6.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\客戶分類.cs">
+      <DependentUpon>客戶資料.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\客戶聯絡人.cs">
       <DependentUpon>客戶資料.tt</DependentUpon>
     </Compile>
