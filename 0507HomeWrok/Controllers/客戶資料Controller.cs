@@ -17,7 +17,7 @@ namespace _0507HomeWrok.Controllers
         private 客戶資料Repository repo = RepositoryHelper.Get客戶資料Repository();
         private 客戶分類Repository repo2 = RepositoryHelper.Get客戶分類Repository();
 
-        public ActionResult Index(string str類型, string str查詢值, string str查詢值2)
+        public ActionResult Index(string str類型, string str查詢值, string str查詢值2, string sort, bool? desc)
         {
             var data = repo.Where(p => p.是否刪除 == false).OrderBy(p => p.Id);
 
@@ -64,6 +64,32 @@ namespace _0507HomeWrok.Controllers
                     }
                 }
             }
+
+            switch (sort)
+            {
+                case "客戶名稱":
+                    if (desc.HasValue && desc.Value)
+                    {
+                        data = data.OrderByDescending(p => p.客戶名稱);
+                    }
+                    else
+                    {
+                        data = data.OrderBy(p => p.客戶名稱);
+                    }
+                    break;
+                case "分類名稱":
+                    if (desc.HasValue && desc.Value)
+                    {
+                        data = data.OrderByDescending(p => p.客戶分類.分類名稱);
+                    }
+                    else
+                    {
+                        data = data.OrderBy(p => p.客戶分類.分類名稱);
+                    }
+                    break;
+            }
+
+
             return View(data);
         }
 
