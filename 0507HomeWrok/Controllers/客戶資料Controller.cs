@@ -21,75 +21,19 @@ namespace _0507HomeWrok.Controllers
 
         public ActionResult Index(string str類型, string str查詢值, string str查詢值2, string sort, bool? desc)
         {
-            var data = repo.Where(p => p.是否刪除 == false).OrderBy(p => p.Id);
+            var data = repo.Get客戶資料By條件(str類型, str查詢值, str查詢值2);
 
             List<SelectListItem> ddlItem = new List<SelectListItem>();
-
             var 分類s = repo2.Where(p => p.是否刪除 == false);
             foreach (var 分類Item in 分類s)
             {
                 ddlItem.Add(new SelectListItem() { Text = 分類Item.分類名稱, Value = 分類Item.Id.ToString() });
             }
             ddlItem.Insert(0, new SelectListItem() { Text = "請選擇", Value = "" });
-
             ViewBag.str查詢值2 = ddlItem;
 
-            if (str類型 == "分類" && str查詢值2 != "")
-            {
-                int 分類Id = Convert.ToInt32(str查詢值2);
-                data = repo.Where(p => p.分類Id == 分類Id && p.是否刪除 == false)
-                .OrderByDescending(p => p.Id);
-            }
 
-            else
-            {
-                if (str類型 != null && str查詢值 != null)
-                {
-                    switch (str類型)
-                    {
-                        case "客戶名稱":
-                            data = repo.Where(p => p.客戶名稱.Contains(str查詢值) && p.是否刪除 == false)
-                            .OrderByDescending(p => p.Id);
-                            break;
-                        case "統一編號":
-                            data = repo.Where(p => p.統一編號.Contains(str查詢值) && p.是否刪除 == false)
-                            .OrderByDescending(p => p.Id);
-                            break;
-                        case "電話":
-                            data = repo.Where(p => p.電話.Contains(str查詢值) && p.是否刪除 == false)
-                            .OrderByDescending(p => p.Id);
-                            break;
-                        case "Email":
-                            data = repo.Where(p => p.Email.Contains(str查詢值) && p.是否刪除 == false)
-                            .OrderByDescending(p => p.Id);
-                            break;
-                    }
-                }
-            }
-
-            switch (sort)
-            {
-                case "客戶名稱":
-                    if (desc.HasValue && desc.Value)
-                    {
-                        data = data.OrderByDescending(p => p.客戶名稱);
-                    }
-                    else
-                    {
-                        data = data.OrderBy(p => p.客戶名稱);
-                    }
-                    break;
-                case "分類名稱":
-                    if (desc.HasValue && desc.Value)
-                    {
-                        data = data.OrderByDescending(p => p.客戶分類.分類名稱);
-                    }
-                    else
-                    {
-                        data = data.OrderBy(p => p.客戶分類.分類名稱);
-                    }
-                    break;
-            }
+            data = repo.客戶資料排序(data, sort, desc);
 
 
             return View(data);
@@ -210,7 +154,7 @@ namespace _0507HomeWrok.Controllers
             }
 
             客戶資料 客戶資料data = repo.Get客戶資料ById(id.Value);
-            if(客戶資料data==null)
+            if (客戶資料data == null)
             {
                 return HttpNotFound();
             }
