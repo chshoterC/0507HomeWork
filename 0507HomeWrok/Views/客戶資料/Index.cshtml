@@ -11,13 +11,15 @@
 
     @using (Html.BeginForm("index", "客戶資料", FormMethod.Get))
     {
-        <select name="str類型">
+        <select name="str類型" onchange="if ($(this).val() == '分類') { $('.q1').hide(); $('.q2').show(); } else { $('.q2').hide(); $('.q1').show(); }">
             <option>客戶名稱</option>
             <option>統一編號</option>
             <option>電話</option>
             <option>Email</option>
+            <option>分類</option>
         </select>
-        <input type="text" name="str查詢值" value="" />
+        <input type="text" class="q1" name="str查詢值" value="" />
+        @Html.DropDownList("str查詢值2", null, htmlAttributes: new { @class = "form-control q2", @style = "display:none;", @onchange = "if($(this).val() !=''){$(\"form\").submit();}" })
     }
 </p>
 <table class="table">
@@ -46,35 +48,36 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.客戶名稱)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.客戶分類.分類名稱)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.統一編號)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.電話)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.傳真)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.地址)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.客戶名稱)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.客戶分類.分類名稱)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.統一編號)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.電話)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.傳真)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.地址)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>

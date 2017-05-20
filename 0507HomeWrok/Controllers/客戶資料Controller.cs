@@ -17,32 +17,51 @@ namespace _0507HomeWrok.Controllers
         private 客戶資料Repository repo = RepositoryHelper.Get客戶資料Repository();
         private 客戶分類Repository repo2 = RepositoryHelper.Get客戶分類Repository();
 
-        public ActionResult Index(string str類型, string str查詢值)
+        public ActionResult Index(string str類型, string str查詢值, string str查詢值2)
         {
             var data = repo.Where(p => p.是否刪除 == false).OrderBy(p => p.Id);
 
+            List<SelectListItem> ddlItem = new List<SelectListItem>();
 
-             
-            if (str類型 != null && str查詢值 != null)
+            var 分類s = repo2.Where(p => p.是否刪除 == false);
+            foreach (var 分類Item in 分類s)
             {
-                switch (str類型)
+                ddlItem.Add(new SelectListItem() { Text = 分類Item.分類名稱, Value = 分類Item.Id.ToString() });
+            }
+            ddlItem.Insert(0, new SelectListItem() { Text = "請選擇", Value = "" });
+
+            ViewBag.str查詢值2 = ddlItem;
+
+            if (str類型 == "分類" && str查詢值2 != "")
+            {
+                int 分類Id = Convert.ToInt32(str查詢值2);
+                data = repo.Where(p => p.分類Id == 分類Id && p.是否刪除 == false)
+                .OrderByDescending(p => p.Id);
+            }
+
+            else
+            {
+                if (str類型 != null && str查詢值 != null)
                 {
-                    case "客戶名稱":
-                        data = repo.Where(p => p.客戶名稱.Contains(str查詢值) && p.是否刪除 == false)
-                        .OrderByDescending(p => p.Id);
-                        break;
-                    case "統一編號":
-                        data = repo.Where(p => p.統一編號.Contains(str查詢值) && p.是否刪除 == false)
-                        .OrderByDescending(p => p.Id);
-                        break;
-                    case "電話":
-                        data = repo.Where(p => p.電話.Contains(str查詢值) && p.是否刪除 == false)
-                        .OrderByDescending(p => p.Id);
-                        break;
-                    case "Email":
-                        data = repo.Where(p => p.Email.Contains(str查詢值) && p.是否刪除 == false)
-                        .OrderByDescending(p => p.Id);
-                        break;
+                    switch (str類型)
+                    {
+                        case "客戶名稱":
+                            data = repo.Where(p => p.客戶名稱.Contains(str查詢值) && p.是否刪除 == false)
+                            .OrderByDescending(p => p.Id);
+                            break;
+                        case "統一編號":
+                            data = repo.Where(p => p.統一編號.Contains(str查詢值) && p.是否刪除 == false)
+                            .OrderByDescending(p => p.Id);
+                            break;
+                        case "電話":
+                            data = repo.Where(p => p.電話.Contains(str查詢值) && p.是否刪除 == false)
+                            .OrderByDescending(p => p.Id);
+                            break;
+                        case "Email":
+                            data = repo.Where(p => p.Email.Contains(str查詢值) && p.是否刪除 == false)
+                            .OrderByDescending(p => p.Id);
+                            break;
+                    }
                 }
             }
             return View(data);
@@ -90,7 +109,7 @@ namespace _0507HomeWrok.Controllers
 
         public ActionResult Edit(int id)
         {
-            
+
             var item = repo.Get客戶資料ById(id);
             ViewBag.分類Id = new SelectList(repo2.Where(p => p.是否刪除 == false), "Id", "分類名稱", item.分類Id);
             return View(item);
