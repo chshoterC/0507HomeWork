@@ -12,6 +12,8 @@
         <AssociationConnector Association="客戶資料Model.FK_客戶銀行資訊_客戶資料" ManuallyRouted="false" />
         <AssociationConnector Association="客戶資料Model.FK_客戶聯絡人_客戶資料" ManuallyRouted="false" />
         <EntityTypeShape EntityType="客戶資料Model.v_客戶資料關聯統計表" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="客戶資料Model.客戶分類" Width="1.5" PointX="7.75" PointY="2.625" />
+        <AssociationConnector Association="客戶資料Model.FK_客戶資料_客戶分類" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
