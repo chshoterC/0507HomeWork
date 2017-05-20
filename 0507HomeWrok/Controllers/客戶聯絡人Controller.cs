@@ -12,6 +12,8 @@ namespace _0507HomeWrok.Controllers
     {
        
         客戶聯絡人Repository repo = RepositoryHelper.Get客戶聯絡人Repository();
+        客戶資料Repository repo2 = RepositoryHelper.Get客戶資料Repository();
+
         public ActionResult Index(string str類型, string str查詢值)
         {
             var data = repo.Where(p => p.是否刪除 == false).OrderBy(p => p.Id);
@@ -43,7 +45,7 @@ namespace _0507HomeWrok.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.客戶Id = new SelectList(repo.Where(p => p.是否刪除 == false), "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(repo2.Where(p => p.是否刪除 == false), "Id", "客戶名稱");
             return View();
         }
 
@@ -59,7 +61,7 @@ namespace _0507HomeWrok.Controllers
 
                 return RedirectToAction("Index");
             }
-            ViewBag.客戶Id = new SelectList(repo.Where(p => p.是否刪除 == false), "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(repo2.Where(p => p.是否刪除 == false), "Id", "客戶名稱");
             return View(客戶聯絡人Item);
         }
 
