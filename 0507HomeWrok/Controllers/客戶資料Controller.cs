@@ -15,9 +15,14 @@ namespace _0507HomeWrok.Controllers
 
         private v_客戶資料關聯統計表Repository v_repo = RepositoryHelper.Getv_客戶資料關聯統計表Repository();
         private 客戶資料Repository repo = RepositoryHelper.Get客戶資料Repository();
+        private 客戶分類Repository repo2 = RepositoryHelper.Get客戶分類Repository();
+
         public ActionResult Index(string str類型, string str查詢值)
         {
             var data = repo.Where(p => p.是否刪除 == false).OrderBy(p => p.Id);
+
+
+             
             if (str類型 != null && str查詢值 != null)
             {
                 switch (str類型)
@@ -52,6 +57,7 @@ namespace _0507HomeWrok.Controllers
 
         public ActionResult Create()
         {
+            ViewBag.分類Id = new SelectList(repo2.Where(p => p.是否刪除 == false), "Id", "分類名稱");
             return View();
         }
 
@@ -65,7 +71,8 @@ namespace _0507HomeWrok.Controllers
 
                 return RedirectToAction("Index");
             }
-            return View();
+            ViewBag.分類Id = new SelectList(repo2.Where(p => p.是否刪除 == false), "Id", "分類名稱");
+            return View(客戶資料Item);
         }
 
         public ActionResult Details(int? id)
@@ -83,7 +90,9 @@ namespace _0507HomeWrok.Controllers
 
         public ActionResult Edit(int id)
         {
+            
             var item = repo.Get客戶資料ById(id);
+            ViewBag.分類Id = new SelectList(repo2.Where(p => p.是否刪除 == false), "Id", "分類名稱", item.分類Id);
             return View(item);
         }
 
@@ -100,13 +109,16 @@ namespace _0507HomeWrok.Controllers
                 item.傳真 = 客戶資料Item.傳真;
                 item.地址 = 客戶資料Item.地址;
                 item.Email = 客戶資料Item.Email;
+                item.分類Id = 客戶資料Item.分類Id;
 
                 repo.Update(item);
                 repo.UnitOfWork.Commit();
 
                 return RedirectToAction("Index");
             }
-            return View();
+
+            ViewBag.分類Id = new SelectList(repo2.Where(p => p.是否刪除 == false), "Id", "分類名稱", 客戶資料Item.分類Id);
+            return View(客戶資料Item);
         }
 
         public ActionResult Delete(int id)
