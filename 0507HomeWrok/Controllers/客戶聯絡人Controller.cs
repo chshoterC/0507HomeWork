@@ -10,30 +10,29 @@ namespace _0507HomeWrok.Controllers
 {
     public class 客戶聯絡人Controller : Controller
     {
-        ////// GET: 客戶銀行資訊
-        客戶資料Entities db = new 客戶資料Entities();
+       
+        客戶聯絡人Repository repo = RepositoryHelper.Get客戶聯絡人Repository();
         public ActionResult Index(string str類型, string str查詢值)
         {
-            var all = db.客戶聯絡人.AsQueryable();
-            var data = all.Where(p => p.是否刪除 == false).OrderBy(p => p.Id);
+            var data = repo.Where(p => p.是否刪除 == false).OrderBy(p => p.Id);
             if (str類型 != null && str查詢值 != null)
             {
                 switch (str類型)
                 {
                     case "職稱":
-                        data = all.Where(p => p.職稱.Contains(str查詢值) && p.是否刪除 == false)
+                        data = repo.Where(p => p.職稱.Contains(str查詢值) && p.是否刪除 == false)
                         .OrderByDescending(p => p.Id);
                         break;
                     case "姓名":
-                        data = all.Where(p => p.姓名.Contains(str查詢值) && p.是否刪除 == false)
+                        data = repo.Where(p => p.姓名.Contains(str查詢值) && p.是否刪除 == false)
                         .OrderByDescending(p => p.Id);
                         break;
                     case "Email":
-                        data = all.Where(p => p.Email.Contains(str查詢值) && p.是否刪除 == false)
+                        data = repo.Where(p => p.Email.Contains(str查詢值) && p.是否刪除 == false)
                         .OrderByDescending(p => p.Id);
                         break;
                     case "手機":
-                        data = all.Where(p => p.手機.Contains(str查詢值) && p.是否刪除 == false)
+                        data = repo.Where(p => p.手機.Contains(str查詢值) && p.是否刪除 == false)
                         .OrderByDescending(p => p.Id);
                         break;
                 }
@@ -44,22 +43,23 @@ namespace _0507HomeWrok.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.客戶Id = new SelectList(db.客戶資料.Where(p => p.是否刪除 == false), "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(repo.Where(p => p.是否刪除 == false), "Id", "客戶名稱");
             return View();
         }
+
 
         [HttpPost]
         public ActionResult Create(客戶聯絡人 客戶聯絡人Item)
         {
             if (ModelState.IsValid)
             {
-       
-                db.客戶聯絡人.Add(客戶聯絡人Item);
-                db.SaveChanges();
+
+                repo.Add(客戶聯絡人Item);
+                repo.UnitOfWork.Commit();
 
                 return RedirectToAction("Index");
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料.Where(p => p.是否刪除 == false), "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(repo.Where(p => p.是否刪除 == false), "Id", "客戶名稱");
             return View(客戶聯絡人Item);
         }
 
@@ -67,7 +67,7 @@ namespace _0507HomeWrok.Controllers
         {
             if (id != null)
             {
-                var data = db.客戶聯絡人.Find(id);
+                var data = repo.Get客戶聯絡人ById(id.Value);
                 return View(data);
             }
 
@@ -77,7 +77,7 @@ namespace _0507HomeWrok.Controllers
 
         public ActionResult Edit(int id)
         {
-            var item = db.客戶聯絡人.Find(id);
+            var item = repo.Get客戶聯絡人ById(id);
             return View(item);
         }
 
@@ -86,7 +86,7 @@ namespace _0507HomeWrok.Controllers
         {
             if (ModelState.IsValid)
             {
-                var item = db.客戶聯絡人.Find(id);
+                var item = repo.Get客戶聯絡人ById(id);
 
                 item.職稱 = 客戶聯絡人Item.職稱;
                 item.姓名 = 客戶聯絡人Item.姓名;
@@ -94,7 +94,9 @@ namespace _0507HomeWrok.Controllers
                 item.手機 = 客戶聯絡人Item.手機;
                 item.電話 = 客戶聯絡人Item.電話;
 
-                db.SaveChanges();
+                repo.Update(item);
+                repo.UnitOfWork.Commit();
+
                 return RedirectToAction("Index");
             }
             return View();
@@ -102,12 +104,12 @@ namespace _0507HomeWrok.Controllers
 
         public ActionResult Delete(int id)
         {
-            var 客戶聯絡人Item = db.客戶聯絡人.Find(id);
+            var 客戶聯絡人Item = repo.Get客戶聯絡人ById(id);
 
-            客戶聯絡人Item.是否刪除 = true;
             try
             {
-                db.SaveChanges();
+                repo.Delete(客戶聯絡人Item);
+                repo.UnitOfWork.Commit();
             }
             catch (DbEntityValidationException ex)
             {

@@ -13,8 +13,6 @@ namespace _0507HomeWrok.Controllers
     {
         // GET: 客戶資料
 
-        客戶資料Entities db = new 客戶資料Entities();
-
         private v_客戶資料關聯統計表Repository v_repo = RepositoryHelper.Getv_客戶資料關聯統計表Repository();
         private 客戶資料Repository repo = RepositoryHelper.Get客戶資料Repository();
         public ActionResult Index(string str類型, string str查詢值)
