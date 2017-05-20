@@ -53,11 +53,8 @@ namespace _0507HomeWrok.Models
         public string Email { get; set; }
 
 
-        [RegularExpression(@"\d{4}-\d{6}", ErrorMessage = "手機格式錯誤")]
-        [StringLength(11, ErrorMessage = "欄位長度不得大於 11 個字元")]
         public string 手機 { get; set; }
 
-        [StringLength(50, ErrorMessage = "欄位長度不得大於 50 個字元")]
         public string 電話 { get; set; }
 
         public virtual 客戶資料 客戶資料 { get; set; }

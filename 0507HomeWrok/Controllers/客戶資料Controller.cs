@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity.Infrastructure;
+using _0507HomeWrok.Views.ViewModel;
 
 namespace _0507HomeWrok.Controllers
 {
@@ -16,6 +17,7 @@ namespace _0507HomeWrok.Controllers
         private v_客戶資料關聯統計表Repository v_repo = RepositoryHelper.Getv_客戶資料關聯統計表Repository();
         private 客戶資料Repository repo = RepositoryHelper.Get客戶資料Repository();
         private 客戶分類Repository repo2 = RepositoryHelper.Get客戶分類Repository();
+        private 客戶聯絡人Repository repo3 = RepositoryHelper.Get客戶聯絡人Repository();
 
         public ActionResult Index(string str類型, string str查詢值, string str查詢值2, string sort, bool? desc)
         {
@@ -182,6 +184,37 @@ namespace _0507HomeWrok.Controllers
                 throw ex;
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult BatchUpdate(int id)
+        {
+            ViewData.Model = repo3.Where(p => p.客戶Id == id && p.是否刪除 == false);
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult BatchUpdate(int? id, IList<批次更新客戶聯絡人VM> items)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var item in items)
+                {
+                    var 客戶聯絡人item = repo3.Get客戶聯絡人ById(item.Id);
+                    客戶聯絡人item.職稱 = item.職稱;
+                    客戶聯絡人item.手機 = item.手機;
+                    客戶聯絡人item.電話 = item.電話;
+                }
+                repo3.UnitOfWork.Commit();
+
+                return RedirectToAction("Details", new { id = id });
+            }
+
+            客戶資料 客戶資料data = repo.Get客戶資料ById(id.Value);
+            if(客戶資料data==null)
+            {
+                return HttpNotFound();
+            }
+            return View("Details", 客戶資料data);
         }
     }
 }
